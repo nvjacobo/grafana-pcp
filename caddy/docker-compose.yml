@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    env_file:
+      - config.env
+
+  caddy:
+     depends_on:
+       - grafana
+     image: caddy:2.4.3-alpine
+     restart: always
+     command: ["sh", "-c", "caddy reverse-proxy --from https://$${PUBLIC_DOMAIN}:443 --to http://grafana:3000"]
+     ports:
+       - 80:80
+       - 443:443
+    env_file:
+      - config.env
