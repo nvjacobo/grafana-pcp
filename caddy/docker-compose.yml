@@ -14,6 +14,8 @@ services:
      depends_on:
        - grafana
      image: caddy:2.4.3-alpine
+     volumes:
+       - caddy-storage:/data
      restart: always
      command: ["sh", "-c", "caddy reverse-proxy --from https://$${PUBLIC_DOMAIN}:443 --to http://grafana:3000"]
      env_file:
@@ -21,3 +23,7 @@ services:
      ports:
        - 80:80
        - 443:443
+
+volumes:
+   grafana-storage:
+   caddy-storage:
