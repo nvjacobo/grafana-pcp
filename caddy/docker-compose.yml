@@ -14,8 +14,8 @@ services:
      image: caddy:2.4.3-alpine
      restart: always
      command: ["sh", "-c", "caddy reverse-proxy --from https://$${PUBLIC_DOMAIN}:443 --to http://grafana:3000"]
+     env_file:
+       - config.env
      ports:
        - 80:80
        - 443:443
-    env_file:
-      - config.env
